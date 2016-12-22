@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 import Cell from './cell';
+import Table from './table';
 
 // function tick() {
 //   ReactDOM.render(
@@ -15,8 +16,7 @@ import Cell from './cell';
 
 
 ReactDOM.render(
-  <Dates />
-  <Cell />,
+  <Table />,
   document.getElementById('root')
 );
 

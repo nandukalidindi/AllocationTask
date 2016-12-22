@@ -80,21 +80,10 @@ function populateNameTaskData(dateRanges, data) {
   dateRanges.forEach(function(date) {
     hash = {};
     data.forEach(function(task) {
-      // if(isDateInBetween(date, task["start"], task["end"])) {
-        resources(data).forEach(function(resource) {
-          hash[resource] = hash[resource] || [];
-          hash[resource].push((isDateInBetween(date, task["start"], task["end"]) && task["resource"].indexOf(resource) !== -1) ? 4 : 0);
-          // if(task["resource"].indexOf(resource) !== -1) {
-          //   hash[resource].push(task["task"]);
-          // } else {
-          //   hash[resource].push("no_task");
-          // }
-        });
-        // task["resource"].forEach(function(resource) {
-        //   hash[resource] = hash[resource] || [];
-        //   hash[resource].push(task["task"]);
-        // });
-      // }
+      resources(data).forEach(function(resource) {
+        hash[resource] = hash[resource] || [];
+        hash[resource].push((isDateInBetween(date, task["start"], task["end"]) && task["resource"].indexOf(resource) !== -1) ? 4 : 0);
+      });
     });
     Object.keys(hash).forEach(function(resource) {
       finalHash[resource] = finalHash[resource] || [];
