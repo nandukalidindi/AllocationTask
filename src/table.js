@@ -1,5 +1,6 @@
 import React from 'react';
-import Task from './task';
+// import Task from './task';
+import List from './list';
 
 Date.prototype.addDays = function(days) {
     var dat = new Date(this.valueOf())
@@ -119,7 +120,9 @@ class Table extends React.Component {
       var resource = 'john'
       var taskName = "task" + index.toString();
       var mappedTask = finalHash[resource].map(function(task) { return task[index]; });
-      buildTable.push(<div> <tr> {resource} </tr> <Task taskName={taskName} mappedTask={mappedTask} /> </div>);
+      var mappedTasks = finalHash[resource];
+      // buildTable.push(<div> <tr> {resource} </tr> <Task taskName={taskName} mappedTask={mappedTask} /> </div>);
+      buildTable.push(<div> <tr> {resource} </tr> <List mappedTasks={mappedTasks} /> </div>);
     // });
     // var some = finalHash["john"];
 
