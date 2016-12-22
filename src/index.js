@@ -117,15 +117,6 @@ var resources = resources(processData(data));
 
 var newData = finalHash['john'];
 
-
-var data = [
-  {id: 1, taskName: "Pete Hunt", standarDescription: "This is one comment", emplComment: "meaaow I am meeawo", empRating : "1"},
-  {id: 2, taskName: "Pete Hunt", standarDescription: "This is one comment", emplComment: "meaaow I am meeawo", empRating : "1"},
-  {id: 3, taskName: "Pete Hunt", standarDescription: "This is one comment", emplComment: "meaaow I am meeawo", empRating : "1"},
-  {id: 4, taskName: "Pete Hunt", standarDescription: "This is one comment", emplComment: "meaaow I am meeawo", empRating : "1"},
-  {id: 5, taskName: "Pete Hunt", standarDescription: "This is one comment", emplComment: "meaaow I am meeawo", empRating : "1"}
-];
-
   var AllResourceList = React.createClass({
     render: function() {
       var headers = [];
