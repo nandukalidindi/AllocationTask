@@ -1,0 +1,8 @@
+[
+  {"task": "task1", "resource": ["john", "jimmy"], "start": "25-08-15", "end": "25-09-15", "utilization": 50},
+  {"task": "task2", "resource": ["john", "jimmy"], "start": "21-09-15", "end": "30-09-15", "utilization": 50},
+  {"task": "task3", "resource": ["john"], "start": "26-08-15", "end": "02-09-15", "utilization": 50},
+  {"task": "task4", "resource": ["sara"], "start": "14-09-15", "end": "02-10-15", "utilization": 100},
+  {"task": "task5", "resource": ["hg", "hb"], "start": "10-09-15", "end": "14-10-15", "utilization": 50},
+  {"task": "task6", "resource": ["hg"], "start": "10-09-15", "end": "21-09-15", "utilization": 50}
+]
