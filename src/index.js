@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Fixture from './fixture';
+import Task from './task';
+import ResourceTaskConsolidation from './resource-task-consolidation';
+import AllResourceList from './all-resource-list'
 
 Date.prototype.addDays = function(days) {
     var dat = new Date(this.valueOf())
@@ -86,73 +88,7 @@ function populateNameTaskData(dateRanges, data) {
 var dates = getDateRanges(processData(data));
 var finalHash = populateNameTaskData(getDates(dates[0], dates[1]), processData(data));
 
-var AllResourceList = React.createClass({
-  render: function() {
-    var headers = [];
-    getDates(dates[0], dates[1]).forEach(function(date) {
-      headers.push(<td> {date.toUTCString().split("00:00:00 ")[0]} </td>);
-    });
-    var allResources = [];
-    Object.keys(finalHash).forEach(function(resource) {
-      allResources.push(<ResourceTaskMap resourceName={resource} />);
-    });
-    return (
-      <table style={{'width': '100%'}}>
-        <thead>
-          <tr className="date-row">
-            &nbsp; {headers}
-          </tr>
-        </thead>
-        {allResources}
-      </table>
-    );
-  }
-});
-
-var ResourceTaskMap = React.createClass({
-  render: function() {
-    var relevantTaskList = finalHash[this.props.resourceName];
-    var cells = [];
-    relevantTaskList.forEach(function(taskList) {
-      var count = taskList.filter(function(task) { return task === 4; }).length*4;
-      cells.push(<td> {count} </td>);
-    });
-
-    var list = [];
-    for(var i=0; i<6; i++) {
-      list.push(<ResourceTask index={i} resourceList={relevantTaskList}/>)
-    }
-    return (
-      <tbody>
-        <tr className="yellow-cell">
-          <td> {this.props.resourceName} </td>
-          {cells}
-        </tr>
-        {list}
-      </tbody>
-    );
-  }
-});
-
-var ResourceTask = React.createClass({
-  render: function() {
-    var index = this.props.index;
-    var taskListByIndex = this.props.resourceList.map(function(task) { return task[index];});
-    var cells = [];
-    taskListByIndex.forEach(function(task) {
-      cells.push(<td> {task} </td>);
-    });
-    var taskName = "task" + this.props.index.toString();
-    return (
-      <tr className="cyan-cell">
-        <td> {taskName} </td>
-        {cells}
-      </tr>
-    );
-  }
-});
-
 ReactDOM.render(
-  <div><AllResourceList data={data} /></div>,
+  <div><AllResourceList dateRange={getDates(dates[0], dates[1])} finalHash={finalHash} data={data} /></div>,
   document.getElementById('root')
 );
