@@ -90,16 +90,16 @@ var AllResourceList = React.createClass({
   render: function() {
     var headers = [];
     getDates(dates[0], dates[1]).forEach(function(date) {
-      headers.push(<td> {date.toUTCString().split("20:00:00 ")[0]} </td>);
+      headers.push(<td> {date.toUTCString().split("00:00:00 ")[0]} </td>);
     });
     var allResources = [];
     Object.keys(finalHash).forEach(function(resource) {
       allResources.push(<ResourceTaskMap resourceName={resource} />);
     });
     return (
-      <table>
+      <table style={{'width': '100%'}}>
         <thead>
-          <tr className="red_font">
+          <tr className="date-row">
             &nbsp; {headers}
           </tr>
         </thead>
@@ -124,7 +124,7 @@ var ResourceTaskMap = React.createClass({
     }
     return (
       <tbody>
-        <tr style={{'background': 'yellow'}}>
+        <tr className="yellow-cell">
           <td> {this.props.resourceName} </td>
           {cells}
         </tr>
@@ -144,7 +144,7 @@ var ResourceTask = React.createClass({
     });
     var taskName = "task" + this.props.index.toString();
     return (
-      <tr style={{'background': 'Cyan'}}>
+      <tr className="cyan-cell">
         <td> {taskName} </td>
         {cells}
       </tr>

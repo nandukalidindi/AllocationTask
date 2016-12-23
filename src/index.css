@@ -4,6 +4,15 @@ body {
   font-family: sans-serif;
 }
 
-.red_font {
-  color: 'red';
+.date-row {
+  background: chartreuse;
+  color: red;
+}
+
+.cyan-cell {
+  background: cyan;
+}
+
+.yellow-cell {
+  background: yellow;
 }
