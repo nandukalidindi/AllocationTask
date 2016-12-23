@@ -1,7 +1,3 @@
-import React from 'react';
-// import Task from './task';
-import List from './list';
-
 Date.prototype.addDays = function(days) {
     var dat = new Date(this.valueOf())
     dat.setDate(dat.getDate() + days);
@@ -54,18 +50,18 @@ function isDateInBetween(date, beforeDate, afterDate) {
   return (beforeDate <= date && afterDate >= date);
 }
 
-function getDataForDate(date, data) {
-  var hash = {};
-  data.forEach(function(task) {
-    if(isDateInBetween(date, task["start"], task["end"])) {
-      task["resource"].forEach(function(resource) {
-        hash[resource] = hash[resource] || [];
-        hash[resource].push(task["task"]);
-      });
-    }
-  });
-  return hash
-}
+// function getDataForDate(date, data) {
+//   var hash = {};
+//   data.forEach(function(task) {
+//     if(isDateInBetween(date, task["start"], task["end"])) {
+//       task["resource"].forEach(function(resource) {
+//         hash[resource] = hash[resource] || [];
+//         hash[resource].push(task["task"]);
+//       });
+//     }
+//   });
+//   return hash
+// }
 
 function resources(data) {
   var finalResources = []
@@ -97,43 +93,11 @@ function populateNameTaskData(dateRanges, data) {
   return finalHash;
 }
 
-function getIndividialTask(resource, task_index, finalHash) {
-  return finalHash[resource].map(function(tasks) {
-    return tasks[task_index];
-  });
-}
+// function getIndividialTask(resource, task_index, finalHash) {
+//   return finalHash[resource].map(function(tasks) {
+//     return tasks[task_index];
+//   });
+// }
 
-function printMe() { return 'HELO'; }
-
-// getDataForDate(new Date("2015-08-25"), processData(data))
 var dates = getDateRanges(processData(data));
-// getDates(dates[0], dates[1]);
 var finalHash = populateNameTaskData(getDates(dates[0], dates[1]), processData(data));
-// getIndividialTask("john", "task3", populateNameTaskData(getDates(dates[0], dates[1]), processData(data)))
-var resources = resources(processData(data));
-
-class Table extends React.Component {
-  render() {
-    var buildTable = [];
-    // Object.keys(finalHash).forEach(function(resource, index) {
-      var index = 0;
-      var resource = 'john'
-      var taskName = "task" + index.toString();
-      var mappedTask = finalHash[resource].map(function(task) { return task[index]; });
-      var mappedTasks = finalHash[resource];
-      // buildTable.push(<div> <tr> {resource} </tr> <Task taskName={taskName} mappedTask={mappedTask} /> </div>);
-      buildTable.push(<div> <tr> {resource} </tr> <List mappedTasks={mappedTasks} /> </div>);
-    // });
-    // var some = finalHash["john"];
-
-    return(
-      <table>
-        <tbody>
-          {buildTable}
-        </tbody>
-      </table>
-    );
-  }
-}
-
-export default Table;

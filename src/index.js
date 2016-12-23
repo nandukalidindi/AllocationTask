@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Fixture from './fixture';
 
 Date.prototype.addDays = function(days) {
     var dat = new Date(this.valueOf())
@@ -48,24 +49,9 @@ function getDateRanges(data) {
   return [minStartDate, maxEndDate];
 }
 
-// getDateRanges(processData(data))
-
 function isDateInBetween(date, beforeDate, afterDate) {
   return (beforeDate <= date && afterDate >= date);
 }
-
-// function getDataForDate(date, data) {
-//   var hash = {};
-//   data.forEach(function(task) {
-//     if(isDateInBetween(date, task["start"], task["end"])) {
-//       task["resource"].forEach(function(resource) {
-//         hash[resource] = hash[resource] || [];
-//         hash[resource].push(task["task"]);
-//       });
-//     }
-//   });
-//   return hash
-// }
 
 function resources(data) {
   var finalResources = []
@@ -97,12 +83,6 @@ function populateNameTaskData(dateRanges, data) {
   return finalHash;
 }
 
-// function getIndividialTask(resource, task_index, finalHash) {
-//   return finalHash[resource].map(function(tasks) {
-//     return tasks[task_index];
-//   });
-// }
-
 var dates = getDateRanges(processData(data));
 var finalHash = populateNameTaskData(getDates(dates[0], dates[1]), processData(data));
 
@@ -110,7 +90,7 @@ var AllResourceList = React.createClass({
   render: function() {
     var headers = [];
     getDates(dates[0], dates[1]).forEach(function(date) {
-      headers.push(<td> {date.toString().split("20:00:00 ")[0]} </td>);
+      headers.push(<td> {date.toUTCString().split("20:00:00 ")[0]} </td>);
     });
     var allResources = [];
     Object.keys(finalHash).forEach(function(resource) {
@@ -119,7 +99,9 @@ var AllResourceList = React.createClass({
     return (
       <table>
         <thead>
+          <tr className="red_font">
             &nbsp; {headers}
+          </tr>
         </thead>
         {allResources}
       </table>
@@ -142,7 +124,7 @@ var ResourceTaskMap = React.createClass({
     }
     return (
       <tbody>
-        <tr>
+        <tr style={{'background': 'yellow'}}>
           <td> {this.props.resourceName} </td>
           {cells}
         </tr>
@@ -151,22 +133,6 @@ var ResourceTaskMap = React.createClass({
     );
   }
 });
-
-// var ResourceTaskList = React.createClass({
-//   render: function() {
-//     var relevantTaskList = finalHash[this.props.resourceName];
-//     var list = [];
-//     for(var i=0; i<6; i++) {
-//       list.push(<ResourceTask index={i} resourceList={relevantTaskList}/>);
-//     }
-//     i = 0;
-//     return (
-//       <div>
-//         {list}
-//       </div>
-//     );
-//   }
-// });
 
 var ResourceTask = React.createClass({
   render: function() {
@@ -178,7 +144,7 @@ var ResourceTask = React.createClass({
     });
     var taskName = "task" + this.props.index.toString();
     return (
-      <tr>
+      <tr style={{'background': 'Cyan'}}>
         <td> {taskName} </td>
         {cells}
       </tr>
@@ -187,6 +153,6 @@ var ResourceTask = React.createClass({
 });
 
 ReactDOM.render(
-  <div><AllResourceList data={data}  /></div>,
+  <div><AllResourceList data={data} /></div>,
   document.getElementById('root')
 );
