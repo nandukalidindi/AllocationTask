@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import './index.css';
-import Cell from './cell';
-import Table from './table';
 
 Date.prototype.addDays = function(days) {
     var dat = new Date(this.valueOf())
@@ -57,18 +54,18 @@ function isDateInBetween(date, beforeDate, afterDate) {
   return (beforeDate <= date && afterDate >= date);
 }
 
-function getDataForDate(date, data) {
-  var hash = {};
-  data.forEach(function(task) {
-    if(isDateInBetween(date, task["start"], task["end"])) {
-      task["resource"].forEach(function(resource) {
-        hash[resource] = hash[resource] || [];
-        hash[resource].push(task["task"]);
-      });
-    }
-  });
-  return hash
-}
+// function getDataForDate(date, data) {
+//   var hash = {};
+//   data.forEach(function(task) {
+//     if(isDateInBetween(date, task["start"], task["end"])) {
+//       task["resource"].forEach(function(resource) {
+//         hash[resource] = hash[resource] || [];
+//         hash[resource].push(task["task"]);
+//       });
+//     }
+//   });
+//   return hash
+// }
 
 function resources(data) {
   var finalResources = []
@@ -100,63 +97,76 @@ function populateNameTaskData(dateRanges, data) {
   return finalHash;
 }
 
-function getIndividialTask(resource, task_index, finalHash) {
-  return finalHash[resource].map(function(tasks) {
-    return tasks[task_index];
-  });
-}
+// function getIndividialTask(resource, task_index, finalHash) {
+//   return finalHash[resource].map(function(tasks) {
+//     return tasks[task_index];
+//   });
+// }
 
-function printMe() { return 'HELO'; }
-
-// getDataForDate(new Date("2015-08-25"), processData(data))
 var dates = getDateRanges(processData(data));
-// getDates(dates[0], dates[1]);
 var finalHash = populateNameTaskData(getDates(dates[0], dates[1]), processData(data));
-// getIndividialTask("john", "task3", populateNameTaskData(getDates(dates[0], dates[1]), processData(data)))
-var resources = resources(processData(data));
 
-var newData = finalHash['john'];
-
-  var AllResourceList = React.createClass({
-    render: function() {
-      var headers = [];
-      getDates(dates[0], dates[1]).forEach(function(date) {
-        headers.push(<td> {date.toString().split("20:00:00 ")[0]} </td>);
-      });
-      var allResources = [];
-      var resourceList = ["john", "jimmy"];
-      Object.keys(finalHash).forEach(function(resource) {
-        allResources.push(<ResourceTaskMap resourceName={resource} />);
-      });
-      return (
-       <div className="downloadlinks">
-        <table className="table table-bordered table-striped-col nomargin" id="table-data">
-        <thead>
-          <tr>
-              {headers}
-          </tr>
-          </thead>
-          {allResources}
-        </table>
-        </div>
-      );
-    }
-  });
-
-var ResourceTaskList = React.createClass({
+var AllResourceList = React.createClass({
   render: function() {
-    var relevantTaskList = finalHash[this.props.resourceName];
-    var list = [];
-    for(var i=0; i<6; i++) {
-      list.push(<tr> <ResourceTask index={i} resourceList={relevantTaskList}/> </tr>);
-    }
+    var headers = [];
+    getDates(dates[0], dates[1]).forEach(function(date) {
+      headers.push(<td> {date.toString().split("20:00:00 ")[0]} </td>);
+    });
+    var allResources = [];
+    Object.keys(finalHash).forEach(function(resource) {
+      allResources.push(<ResourceTaskMap resourceName={resource} />);
+    });
     return (
-      <div>
-        {list}
-      </div>
+      <table>
+        <thead>
+            &nbsp; {headers}
+        </thead>
+        {allResources}
+      </table>
     );
   }
 });
+
+var ResourceTaskMap = React.createClass({
+  render: function() {
+    var relevantTaskList = finalHash[this.props.resourceName];
+    var cells = [];
+    relevantTaskList.forEach(function(taskList) {
+      var count = taskList.filter(function(task) { return task === 4; }).length*4;
+      cells.push(<td> {count} </td>);
+    });
+
+    var list = [];
+    for(var i=0; i<6; i++) {
+      list.push(<ResourceTask index={i} resourceList={relevantTaskList}/>)
+    }
+    return (
+      <tbody>
+        <tr>
+          <td> {this.props.resourceName} </td>
+          {cells}
+        </tr>
+        {list}
+      </tbody>
+    );
+  }
+});
+
+// var ResourceTaskList = React.createClass({
+//   render: function() {
+//     var relevantTaskList = finalHash[this.props.resourceName];
+//     var list = [];
+//     for(var i=0; i<6; i++) {
+//       list.push(<ResourceTask index={i} resourceList={relevantTaskList}/>);
+//     }
+//     i = 0;
+//     return (
+//       <div>
+//         {list}
+//       </div>
+//     );
+//   }
+// });
 
 var ResourceTask = React.createClass({
   render: function() {
@@ -176,25 +186,7 @@ var ResourceTask = React.createClass({
   }
 });
 
-
-var ResourceTaskMap = React.createClass({
-  render: function() {
-    var relevantTaskList = finalHash[this.props.resourceName];
-    var cells = [];
-    relevantTaskList.forEach(function(taskList) {
-      var count = taskList.filter(function(task) { return task == 4; }).length*4;
-      cells.push(<td> {count} </td>);
-    })
-    return (
-      <div>
-        <tr>
-          <td> {this.props.resourceName} </td>
-          {cells}
-        </tr>
-        <ResourceTaskList resourceName={this.props.resourceName} />
-      </div>
-    );
-  }
-});
-
-ReactDOM.render(<div><AllResourceList data={data}  /></div>, document.getElementById('root'));
+ReactDOM.render(
+  <div><AllResourceList data={data}  /></div>,
+  document.getElementById('root')
+);
