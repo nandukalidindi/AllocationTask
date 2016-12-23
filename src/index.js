@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Task from './task';
-import ResourceTaskConsolidation from './resource-task-consolidation';
 import AllResourceList from './all-resource-list'
 
 function addDaysToDate(currentDate, numberOfDays) {
@@ -12,7 +10,7 @@ function addDaysToDate(currentDate, numberOfDays) {
 }
 
 function getDates(startDate, stopDate) {
-    var dateArray = new Array();
+    var dateArray = [];
     var currentDate = startDate;
     while (currentDate <= stopDate) {
         dateArray.push(new Date (currentDate))
@@ -90,6 +88,8 @@ var dates = getDateRanges(data);
 var resourceTaskMap = populateNameTaskData(getDates(dates[0], dates[1]), data);
 
 ReactDOM.render(
-  <div><AllResourceList dateRange={getDates(dates[0], dates[1])} resourceTaskMap={resourceTaskMap} /></div>,
+  <div>
+    <AllResourceList dateRange={getDates(dates[0], dates[1])} resourceTaskMap={resourceTaskMap} />
+  </div>,
   document.getElementById('root')
 );
