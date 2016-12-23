@@ -3,8 +3,9 @@ import Task from './task'
 
 class ResourceTaskConsolidation extends React.Component {
   render() {
-    var relevantTaskList = this.props.finalHash[this.props.resourceName];
-    var cells = [];
+    var resourceTaskMap = this.props.resourceTaskMap,
+        relevantTaskList = resourceTaskMap[this.props.resourceName],
+        cells = [];
     relevantTaskList.forEach(function(taskList) {
       var count = taskList.filter(function(task) { return task === 4; }).length*4;
       cells.push(<td> {count} </td>);
@@ -12,7 +13,9 @@ class ResourceTaskConsolidation extends React.Component {
 
     var list = [];
     for(var i=0; i<6; i++) {
-      list.push(<Task index={i} resourceList={relevantTaskList}/>)
+      if(relevantTaskList.map(function(task) { return task[i] !== 0 ; }).indexOf(true) !== -1) {
+        list.push(<Task index={i} resourceList={relevantTaskList}/>)
+      }
     }
     return (
       <tbody>

@@ -5,18 +5,18 @@ import Task from './task';
 import ResourceTaskConsolidation from './resource-task-consolidation';
 import AllResourceList from './all-resource-list'
 
-Date.prototype.addDays = function(days) {
-    var dat = new Date(this.valueOf())
-    dat.setDate(dat.getDate() + days);
-    return dat;
+function addDaysToDate(currentDate, numberOfDays) {
+    var date = new Date(currentDate.valueOf())
+    date.setDate(date.getDate() + numberOfDays);
+    return date;
 }
 
 function getDates(startDate, stopDate) {
     var dateArray = new Array();
     var currentDate = startDate;
     while (currentDate <= stopDate) {
-        dateArray.push( new Date (currentDate) )
-        currentDate = currentDate.addDays(1);
+        dateArray.push(new Date (currentDate))
+        currentDate = addDaysToDate(currentDate, 1);
     }
     return dateArray;
 }
@@ -30,7 +30,7 @@ var data = [
   {"task": "task6", "resource": ["hg"], "start": "2015-09-10", "end": "2015-09-21", "utilization": 50}
 ]
 
-function processData(data) {
+function processedData(data) {
   return data.map(function(task) {
     task["start"] = new Date(task["start"]);
     task["end"] = new Date(task["end"]);
@@ -68,7 +68,7 @@ function resources(data) {
 }
 
 function populateNameTaskData(dateRanges, data) {
-  var finalHash = {};
+  var resourceTaskMap = {};
   dateRanges.forEach(function(date) {
     var hash = {};
     data.forEach(function(task) {
@@ -78,17 +78,18 @@ function populateNameTaskData(dateRanges, data) {
       });
     });
     Object.keys(hash).forEach(function(resource) {
-      finalHash[resource] = finalHash[resource] || [];
-      finalHash[resource].push(hash[resource]);
+      resourceTaskMap[resource] = resourceTaskMap[resource] || [];
+      resourceTaskMap[resource].push(hash[resource]);
     });
   });
-  return finalHash;
+  return resourceTaskMap;
 }
 
-var dates = getDateRanges(processData(data));
-var finalHash = populateNameTaskData(getDates(dates[0], dates[1]), processData(data));
+data = processedData(data);
+var dates = getDateRanges(data);
+var resourceTaskMap = populateNameTaskData(getDates(dates[0], dates[1]), data);
 
 ReactDOM.render(
-  <div><AllResourceList dateRange={getDates(dates[0], dates[1])} finalHash={finalHash} data={data} /></div>,
+  <div><AllResourceList dateRange={getDates(dates[0], dates[1])} resourceTaskMap={resourceTaskMap} /></div>,
   document.getElementById('root')
 );

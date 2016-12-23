@@ -8,7 +8,7 @@ class Task extends React.Component {
     taskListByIndex.forEach(function(task) {
       cells.push(<td> {task} </td>);
     });
-    var taskName = "task" + this.props.index.toString();
+    var taskName = "task" + (this.props.index + 1).toString();
     return (
       <tr className="cyan-cell">
         <td> {taskName} </td>

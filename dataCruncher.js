@@ -76,7 +76,7 @@ function resources(data) {
 }
 
 function populateNameTaskData(dateRanges, data) {
-  finalHash = {};
+  resourceTaskMap = {};
   dateRanges.forEach(function(date) {
     hash = {};
     data.forEach(function(task) {
@@ -86,15 +86,15 @@ function populateNameTaskData(dateRanges, data) {
       });
     });
     Object.keys(hash).forEach(function(resource) {
-      finalHash[resource] = finalHash[resource] || [];
-      finalHash[resource].push(hash[resource]);
+      resourceTaskMap[resource] = resourceTaskMap[resource] || [];
+      resourceTaskMap[resource].push(hash[resource]);
     });
   });
-  return finalHash;
+  return resourceTaskMap;
 }
 
-function getIndividialTask(resource, task_index, finalHash) {
-  return finalHash[resource].map(function(tasks) {
+function getIndividialTask(resource, task_index, resourceTaskMap) {
+  return resourceTaskMap[resource].map(function(tasks) {
     return tasks[task_index];
   });
 }
@@ -102,6 +102,6 @@ function getIndividialTask(resource, task_index, finalHash) {
 // getDataForDate(new Date("2015-08-25"), processData(data))
 var dates = getDateRanges(processData(data));
 // getDates(dates[0], dates[1]);
-finalHash = populateNameTaskData(getDates(dates[0], dates[1]), processData(data));
+resourceTaskMap = populateNameTaskData(getDates(dates[0], dates[1]), processData(data));
 // getIndividialTask("john", "task3", populateNameTaskData(getDates(dates[0], dates[1]), processData(data)))
 // resources(processData(data));
