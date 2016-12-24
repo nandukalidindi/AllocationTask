@@ -72,7 +72,7 @@ function populateNameTaskData(dateRanges, data) {
     data.forEach(function(task) {
       resources(data).forEach(function(resource) {
         hash[resource] = hash[resource] || [];
-        hash[resource].push((isDateInBetween(date, task["start"], task["end"]) && task["resource"].indexOf(resource) !== -1) ? 4 : 0);
+        hash[resource].push((isDateInBetween(date, task["start"], task["end"]) && task["resource"].indexOf(resource) !== -1) ? 8*(task["utilization"]/100) : 0);
       });
     });
     Object.keys(hash).forEach(function(resource) {

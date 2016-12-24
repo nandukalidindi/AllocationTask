@@ -7,7 +7,7 @@ class ResourceTaskConsolidation extends React.Component {
         relevantTaskList = resourceTaskMap[this.props.resourceName],
         cells = [];
     relevantTaskList.forEach(function(taskList, index) {
-      var count = taskList.filter(function(task) { return task === 4; }).length*4;
+      var count = taskList.reduce((a, b) => a + b, 0);
       cells.push(<td key={index}>
                   {count}
                  </td>);
@@ -16,7 +16,7 @@ class ResourceTaskConsolidation extends React.Component {
     var list = [];
     for(var i=0; i<6; i++) {
       if(relevantTaskList.map(function(task) { return task[i] !== 0; }).indexOf(true) !== -1) {
-        list.push(<Task key={i}
+        list.push(<Task key={i} index={i}
                    resourceList={relevantTaskList}/>)
       }
     }
